@@ -77,6 +77,9 @@ def main():
 	MergedGroup =  pd.merge(log, mobile, how="left", on=['device_id','device_id'])
 	MergedGroup = MergedGroup[MergedGroup['base_station_id'].notnull()]
 	#MergedGroup.groupby('device_id')
+	MergedGroup['log_timestamp'] = pd.to_datetime(MergedGroup['log_timestamp'])
+	MergedGroup = MergedGroup.set_index('log_timestamp')
+	print(MergedGroup.groupby(MergedGroup.index.map(lambda t: t.hour)).sum())
 	return MergedGroup
 
 
