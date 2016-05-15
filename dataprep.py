@@ -8,7 +8,7 @@ import numpy as np
 
 LOG_DATA = "log_data_septermber_1st.csv"
 MOBILE_INFO_SEPTEMBER = "mobile_info_all_september.csv"
-
+MOBILE_INFO_SEPT_1ST = "mobile_info_all_sept_1.csv"
 LOG_DATA_COL = ["deviceid", "log_timestamp", "data_all"]
 MOBILE_INFO_COL = ["device_id", "timestamp", "base_station_id"]
 BASE_STATION_PRACTICE = 452
@@ -25,12 +25,12 @@ def parse_date(date_str):
 	"9/1/16 3:10"
 	"""
 	newTime = datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
-	return [newTime.year, newTime.month, newTime.day, newTime.hour]
+	return [newTime.year, newTime.month, newTime.day, newTime.hour, newTime.minute]
 
 def createDate(date_str):
 	timeStampArray = parse_date(date_str)
 	newstr = ""
-	newstr = str(timeStampArray[1]) +'-' + str(timeStampArray[2]) + '-' + str(timeStampArray[0]) + ' ' + str(timeStampArray[3])
+	newstr = str(timeStampArray[1]) +'-' + str(timeStampArray[2]) + '-' + str(timeStampArray[0]) + ' ' + str(timeStampArray[3]) + ':' + str(timeStampArray[4])
 	return newstr
 
 
@@ -45,32 +45,28 @@ def filterCellTower(pddp, cell_tower):
 	newlog = pddp[pddp['base_station_id'].isin([452])]
 	return newlog
 
+def filterDay(pdFrame, col_name):
+	pdFrame = pddataframe[col_name]
 
 
 
 
 def main():
 	#read_csv returns a pdDataframe. Whoop de doo
-	mobile = pd.read_csv(MOBILE_INFO_SEPTEMBER, index_col=0, usecols=["device_id", "timestamp", "base_station_id"])
-	
-	log = pd.read_csv(LOG_DATA, index_col=0, usecols=["device_id", "log_timestamp", "data_all"])
-	
-	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
-	
-	mobile.index = mobile.index.map(createDate)
-	
+	mobile = pd.read_csv(MOBILE_INFO_SEPT_1ST, usecols=["device_id", "timestamp", "base_station_id"])	
+	log = pd.read_csv(LOG_DATA, usecols=["log_timestamp", "device_id", "data_all"])
+
+	#mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
+	#mobile.index = mobile.index.map(createDate)
+	mobile = mobile["timestamp"].apply(createDate)
 	log = log["log_timestamp"].apply(createDate)
-
-	log.columns= ["device_id", "timestamp", "data_all"]
-
-
-	MergedGroup = mobile.join(log, on ="timestamp")
-
-	MergedGroup.groupby('timestamp').sum()
-
+	#log.columns= ["device_id", "timestamp", "data_all"]
+	MergedGroup =  pd.merge(log, mobile, how="left",on=['device_id','device_id'])
+	MergedGroup.groupby('timestamp')
 	return MergedGroup
 
 
-main()
+print main()
+
 
 
