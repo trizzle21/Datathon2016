@@ -1,6 +1,7 @@
 #Prepares data for classification
 import datetime as dt
-import panda as pd
+import pandas as pd
+from sklearn.decomposition import PCA
 import numpy as np
 
 
@@ -41,6 +42,16 @@ def convertingDates(pdDataframe, colName):
 	"""
 
 
+def project_data(data: 'DataFrame', dims: int) -> '[matrix, matrix]':
+    """
+    :param data: The data as a DataFrame object, assuming from pandas.
+    :param dims: The preferred number of dimensions to project the data onto - the minimum and ideal k, to project onto R^k.
+    :return: An array [result, precision], result being the output data,
+        precision being a precision matrix w/ values near 0 meaning good accuracy.
+    """
+    pca = PCA(n_components=dims)
+    pca.fit(data.as_matrix())
+    return [pca.components_, pca.get_precision()]
 
 def main():
 	#read_csv returns a pdDataframe. Whoop de doo
