@@ -36,15 +36,15 @@ def createDate(date_str):
 
 
 
-def filterCellTower(pdDataFrame, cell_tower):
+def filterCellTower(pddp, cell_tower):
 	"""Takes a pdDataFrame and filters celltower
 		args
 			pddataframe
 			cell tower string
 		outputs new dataframe
 	"""
-	newpdDataFrame = pddataframe[pdDataframe['base_station_id'].isin([cell_tower_string])]
-	return newpdDataFrame
+	newlog = pddp[pddp['base_station_id'].isin([452])]
+	return newlog
 
 
 
@@ -53,9 +53,9 @@ def filterCellTower(pdDataFrame, cell_tower):
 def main():
 	#read_csv returns a pdDataframe. Whoop de doo
 	mobile = pd.read_csv(MOBILE_INFO_SEPTEMBER, index_col=0, usecols=["device_id", "timestamp", "base_station_id"])
-	log = pd.read_csv(LOG_DATA,index_col=0, usecols=["device_id", "log_timestamp", "data_all"])
-	mobile = filterCellTower(Log, BASE_STATION_PRACTICE)
-	mobile = mobile["timestamp"].apply(createDate)
+	log = pd.read_csv(LOG_DATA, index_col=0, usecols=["device_id", "log_timestamp", "data_all"])
+	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
+	mobile = map(createDate, mobile.index)
 	log = log["log_timestamp"].apply(createDate)
 	MergedGroup = mobile.join(log, on = 'log_timestamp')
 
