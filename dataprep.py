@@ -3,7 +3,7 @@ import datetime
 import pandas as pd
 import numpy as np
 
-
+import matplotlib.pyplot as plt
 
 
 LOG_DATA = "log_data_2015_09_01.csv"
@@ -82,10 +82,12 @@ def main():
 
 
 
-REVELANT_DATA = main()
+data = main()
 
 
-
+plt.grid(True) 
+plt.axes = data['data_all'].plot(kind='line')
+plt.show()
 
 if __name__ == '__main__':
     main()  # Run the main method.
