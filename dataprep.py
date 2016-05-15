@@ -14,7 +14,7 @@ LOG_DATA_COL = ["deviceid", "log_timestamp", "data_all"]
 MOBILE_INFO_COL = ["device_id", "timestamp", "base_station_id"]
 
 
-BASE_STATION_PRACTICE = 452
+BASE_STATION_PRACTICE = 8759.0
 Merged_Group_Col = ["device_id", "data_all", "timestamp", "base_station_id" ]
 
 def parse_date(date_str):
@@ -53,7 +53,7 @@ def filterCellTower(pddp, cell_tower):
 			cell tower string
 		outputs new dataframe
 	"""
-	newlog = pddp[pddp['base_station_id'].isin([452])]
+	newlog = pddp[pddp['base_station_id'].isin([8759.0])]
 	return newlog
 
 
@@ -76,7 +76,7 @@ def main():
 	#log.columns= ["device_id", "timestamp", "data_all"]
 	MergedGroup =  pd.merge(log, mobile, how="left", on=['device_id','device_id'])
 	MergedGroup = MergedGroup[MergedGroup['base_station_id'].notnull()]
-	MergedGroup.groupby('device_id')
+	#MergedGroup.groupby('device_id')
 	return MergedGroup
 
 
