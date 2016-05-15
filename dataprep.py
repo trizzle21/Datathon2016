@@ -1,5 +1,5 @@
 #Prepares data for classification
-import datetime as dt
+import datetime
 import pandas as pd
 import numpy as np
 
@@ -24,7 +24,7 @@ def parse_date(date_str):
 	parse_date("9/1/16 3:10:56", "%b/%d/%Y %H")
 	"9/1/16 3:10"
 	"""
-	newTime = dt.dt.strptime(datetime, "%Y-%m-%d %H:%M:%S")
+	newTime = datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
 	return [newTime.year, newTime.month, newTime.day, newTime.hour]
 
 def createDate(date_str):
@@ -55,9 +55,9 @@ def main():
 	mobile = pd.read_csv(MOBILE_INFO_SEPTEMBER, index_col=0, usecols=["device_id", "timestamp", "base_station_id"])
 	log = pd.read_csv(LOG_DATA, index_col=0, usecols=["device_id", "log_timestamp", "data_all"])
 	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
-	mobile = map(createDate, mobile.index)
+	mobile.index = mobile.index.map(createDate)
 	log = log["log_timestamp"].apply(createDate)
-	MergedGroup = mobile.join(log, on = 'log_timestamp')
+	MergedGroup = mobile.join(log, on ="log_timestamp")
 
 	MergedGroup.groupby('timestamp').sum()
 
