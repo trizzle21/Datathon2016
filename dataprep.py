@@ -81,9 +81,14 @@ def main():
 
 
 
-print main()
-#print_full(main())
 
+REVELANT_DATA = main()
+
+
+
+
+if __name__ == '__main__':
+    main()  # Run the main method.
 
 
 
