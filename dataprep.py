@@ -21,7 +21,7 @@ def parse_date(date_str):
 	outputs: time formated in date_format
 
 	example:
-	parse_date("9/1/16 3:10:56", "%b/%d/%Y %H")
+	parse_date("9-1-16 3:10:56", "%b/%d/%Y %H")
 	"9/1/16 3:10"
 	"""
 	newTime = datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
@@ -29,9 +29,8 @@ def parse_date(date_str):
 
 def createDate(date_str):
 	timeStampArray = parse_date(date_str)
-	newstr =""
-	for i in timeStampArray:
-		newstr = newstr + " " + str(i)
+	newstr = ""
+	newstr = str(timeStampArray[1]) +'-' + str(timeStampArray[2]) + '-' + str(timeStampArray[0]) + ' ' + str(timeStampArray[3])
 	return newstr
 
 
@@ -53,11 +52,19 @@ def filterCellTower(pddp, cell_tower):
 def main():
 	#read_csv returns a pdDataframe. Whoop de doo
 	mobile = pd.read_csv(MOBILE_INFO_SEPTEMBER, index_col=0, usecols=["device_id", "timestamp", "base_station_id"])
+	
 	log = pd.read_csv(LOG_DATA, index_col=0, usecols=["device_id", "log_timestamp", "data_all"])
+	
 	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
+	
 	mobile.index = mobile.index.map(createDate)
+	
 	log = log["log_timestamp"].apply(createDate)
-	MergedGroup = mobile.join(log, on ="log_timestamp")
+
+	log.columns= ["device_id", "timestamp", "data_all"]
+
+
+	MergedGroup = mobile.join(log, on ="timestamp")
 
 	MergedGroup.groupby('timestamp').sum()
 
