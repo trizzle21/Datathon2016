@@ -77,22 +77,21 @@ def main():
 	log = pd.read_csv(LOG_DATA, usecols=["log_timestamp", "device_id", "data_all"])
 	mobile = mobile[mobile['base_station_id'].notnull()]
 	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
-	
+
+	#Filter the data
 	#mobile.index = mobile.index.map(createDate)
 	#mobile["timestamp"] = mobile["timestamp"].apply(dateFilter)
 	#log["log_timestamp"] = log["log_timestamp"].apply(dateFilter)
 	#log.columns= ["device_id", "timestamp", "data_all"]
 	MergedGroup =  pd.merge(log, mobile, how="left", on=['device_id','device_id'])
 	MergedGroup = MergedGroup[MergedGroup['base_station_id'].notnull()]
-	#MergedGroup.groupby('device_id')
+
+	#Set to index by timestamp, then group by the hour and sum data_all.
 	MergedGroup['log_timestamp'] = pd.to_datetime(MergedGroup['log_timestamp'])
 	MergedGroup = MergedGroup.set_index('log_timestamp')
-	#print(MergedGroup.groupby(MergedGroup.index.map(lambda t: t.hour)).sum())
-	return MergedGroup
+	return MergedGroup['data_all'].groupby(MergedGroup.index.map(lambda t: t.hour)).sum()
 
-
-
-print(main())
+main()
 #print_full(main())
 
 
