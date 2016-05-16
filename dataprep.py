@@ -2,9 +2,7 @@
 import datetime
 import pandas as pd
 import numpy as np
-
-
-
+from sklearn.decomposition import PCA
 
 LOG_DATA = "log_data_2015_09_01.csv"
 MOBILE_INFO_SEPT_1ST = "mobile_info_2015_09_01.csv"
@@ -62,6 +60,16 @@ def print_full(x):
     print(x)
     pd.reset_option('display.max_rows')
 
+def project_data(data: 'DataFrame', dims: int) -> '[matrix, matrix]':
+    """
+    :param data: The data as a DataFrame object, assuming from pandas.
+    :param dims: The preferred number of dimensions to project the data onto - the minimum and ideal k, to project onto R^k.
+    :return: An array [result, precision], result being the output data,
+        precision being a single element array with value [0,1], 1 meaning all the variance was accounted for (good).
+    """
+    pca = PCA(n_components=dims)
+    pca.fit(data)
+    return [pca.components_, pca.explained_variance_ratio_]
 
 def main():
 	#read_csv returns a pdDataframe. Whoop de doo
@@ -79,13 +87,12 @@ def main():
 	#MergedGroup.groupby('device_id')
 	MergedGroup['log_timestamp'] = pd.to_datetime(MergedGroup['log_timestamp'])
 	MergedGroup = MergedGroup.set_index('log_timestamp')
-	print(MergedGroup.groupby(MergedGroup.index.map(lambda t: t.hour)).sum())
+	#print(MergedGroup.groupby(MergedGroup.index.map(lambda t: t.hour)).sum())
 	return MergedGroup
-	return MergedGroup
 
 
 
-print main()
+print(main())
 #print_full(main())
 
 
