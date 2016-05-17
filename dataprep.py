@@ -2,6 +2,7 @@
 import datetime
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 LOG_DATA = "log_data_2015_09_01.csv"
@@ -72,8 +73,8 @@ def project_data(data: 'DataFrame', dims: int) -> '[matrix, matrix]':
     return [pca.components_, pca.explained_variance_ratio_]
 
 def main():
-	#read_csv returns a pdDataframe. 
-	mobile = pd.read_csv(MOBILE_INFO_SEPT_1ST, usecols=["device_id", "base_station_id"])	
+	#read_csv returns a pdDataframe.
+	mobile = pd.read_csv(MOBILE_INFO_SEPT_1ST, usecols=["device_id", "base_station_id"])
 	log = pd.read_csv(LOG_DATA, usecols=["log_timestamp", "device_id", "data_all"])
 	mobile = mobile[mobile['base_station_id'].notnull()]
 	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
@@ -89,7 +90,16 @@ def main():
 	#Set to index by timestamp, then group by the hour and sum data_all.
 	MergedGroup['log_timestamp'] = pd.to_datetime(MergedGroup['log_timestamp'])
 	MergedGroup = MergedGroup.set_index('log_timestamp')
-	return MergedGroup['data_all'].groupby(MergedGroup.index.map(lambda t: t.hour)).sum()
+	return [np.unique(MergedGroup.index.map(lambda t: t.hour)),MergedGroup['data_all'].groupby(MergedGroup.index.map(lambda t: t.hour)).sum().values]
+
+data = main()
+plt.grid(True)
+plt.title('Data usage over September 1st')
+plt.xlabel('Time (hrs)')
+plt.ylabel('Summed data usage (bytes)')
+plt.plot(data[0],data[1],'-')
+plt.show()
+#print_full(main())
 
 main()
 #print_full(main())
