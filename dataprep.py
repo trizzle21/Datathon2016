@@ -2,9 +2,7 @@
 import datetime
 import pandas as pd
 import numpy as np
-
-import matplotlib.pyplot as plt
-
+from sklearn.decomposition import PCA
 
 LOG_DATA = "log_data_2015_09_01.csv"
 MOBILE_INFO_SEPT_1ST = "mobile_info_2015_09_01.csv"
@@ -62,6 +60,16 @@ def print_full(x):
     print(x)
     pd.reset_option('display.max_rows')
 
+def project_data(data: 'DataFrame', dims: int) -> '[matrix, matrix]':
+    """
+    :param data: The data as a DataFrame object, assuming from pandas.
+    :param dims: The preferred number of dimensions to project the data onto - the minimum and ideal k, to project onto R^k.
+    :return: An array [result, precision], result being the output data,
+        precision being a single element array with value [0,1], 1 meaning all the variance was accounted for (good).
+    """
+    pca = PCA(n_components=dims)
+    pca.fit(data)
+    return [pca.components_, pca.explained_variance_ratio_]
 
 def main():
 	#read_csv returns a pdDataframe. 
@@ -69,28 +77,23 @@ def main():
 	log = pd.read_csv(LOG_DATA, usecols=["log_timestamp", "device_id", "data_all"])
 	mobile = mobile[mobile['base_station_id'].notnull()]
 	mobile = filterCellTower(mobile, BASE_STATION_PRACTICE)
-	
+
+	#Filter the data
 	#mobile.index = mobile.index.map(createDate)
 	#mobile["timestamp"] = mobile["timestamp"].apply(dateFilter)
 	#log["log_timestamp"] = log["log_timestamp"].apply(dateFilter)
 	#log.columns= ["device_id", "timestamp", "data_all"]
 	MergedGroup =  pd.merge(log, mobile, how="left", on=['device_id','device_id'])
 	MergedGroup = MergedGroup[MergedGroup['base_station_id'].notnull()]
-	#MergedGroup.groupby('device_id')
-	return MergedGroup
 
+	#Set to index by timestamp, then group by the hour and sum data_all.
+	MergedGroup['log_timestamp'] = pd.to_datetime(MergedGroup['log_timestamp'])
+	MergedGroup = MergedGroup.set_index('log_timestamp')
+	return MergedGroup['data_all'].groupby(MergedGroup.index.map(lambda t: t.hour)).sum()
 
+main()
+#print_full(main())
 
-
-data = main()
-
-
-plt.grid(True) 
-plt.axes = data['data_all'].plot(kind='line')
-plt.show()
-
-if __name__ == '__main__':
-    main()  # Run the main method.
 
 
 
