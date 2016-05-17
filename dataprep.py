@@ -64,7 +64,7 @@ def print_full(x):
 
 
 def main():
-	#read_csv returns a pdDataframe. Whoop de doo
+	#read_csv returns a pdDataframe. 
 	mobile = pd.read_csv(MOBILE_INFO_SEPT_1ST, usecols=["device_id", "base_station_id"])	
 	log = pd.read_csv(LOG_DATA, usecols=["log_timestamp", "device_id", "data_all"])
 	mobile = mobile[mobile['base_station_id'].notnull()]
