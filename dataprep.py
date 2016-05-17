@@ -98,6 +98,9 @@ def main():
 	MergedGroup = MergedGroup.set_index('log_timestamp')
 	return [np.unique(MergedGroup.index.map(lambda t: t.hour)),MergedGroup['data_all'].groupby(MergedGroup.index.map(lambda t: t.hour)).sum().values]
 
+print main()
+
+
 data = main()
 plt.grid(True)
 plt.title('Data usage over September 1st')

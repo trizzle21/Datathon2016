@@ -18,21 +18,14 @@ import pylab as pl
 from pykalman import KalmanFilter
 
 # specify parameters
-
-Data =[np.array([ 5,  6,  7,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 23], dtype=np.int32), 
-np.array([8901482,  898952, 1107098,  554078,  365004,  427394,  406668,
-        525004,  477256,  571558, 1107482,  909442,  784612,  696754,
-   	    3112642, 3258892])]
-
-measurements = [[5, 8901482], [6,898952], [7, 1107098], [9, 554078], [10,365004], [11,427394], [12, 406668], [13, 525004] , [14, 477256], [15,571558],[16,1107482],[17,909442],[18,784612],[19,696754],[20,3112642],[21,3258892]]
-
+random_state = np.random.RandomState(0)
 transition_matrix = [[1]]
 transition_offset = [0.1]
-observation_matrix = np.eye(1) + [[8901482]]
+observation_matrix = np.eye(1) + random_state.randn(1, 1) * 0.1
 observation_offset = [1.0]
 transition_covariance = np.eye(1)
-observation_covariance = np.eye(1) + np.array([[1506519.875]])
-initial_state_mean = [1827172.458]
+observation_covariance = np.eye(1) + random_state.randn(1, 1) * 0.1
+initial_state_mean = [0]
 initial_state_covariance = [[1]]
 
 # sample from model
@@ -40,7 +33,7 @@ kf = KalmanFilter(
     transition_matrix, observation_matrix, transition_covariance,
     observation_covariance, transition_offset, observation_offset,
     initial_state_mean, initial_state_covariance,
-    em_vars=[measurements]
+    random_state=random_state
 )
 states, observations = kf.sample(
     n_timesteps=24,
@@ -60,12 +53,10 @@ pl.xlabel('Time (hrs)')
 pl.ylabel('Summed data usage (Mbbytes)')
 
 lines_true = pl.plot(states, color='b')
-lines_filt = pl.plot(filtered_state_estimates, color='b')
-lines_smooth = pl.plot(smoothed_state_estimates, color='b')
+lines_filt = pl.plot(filtered_state_estimates, color='r')
+lines_smooth = pl.plot(smoothed_state_estimates, color='g')
 pl.legend((lines_true[0], lines_filt[0], lines_smooth[0]),
-          ('true', '', ''),
-           loc='upper left'
+          ('true', 'filt', 'smooth'),
+          loc='lower right'
 )
-
-
 pl.show()
