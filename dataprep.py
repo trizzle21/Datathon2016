@@ -97,5 +97,13 @@ main()
 
 
 
+plt.grid(True) 
+plt.axes = data['data_all'].plot(kind='line')
+plt.show()
+
+if __name__ == '__main__':
+   main()  # Run the main method.
+
+
 
 
