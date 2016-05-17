@@ -3,7 +3,9 @@ import datetime
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
+import sys
+import os
+#from sklearn.decomposition import PCA
 
 LOG_DATA = "log_data_2015_09_01.csv"
 MOBILE_INFO_SEPT_1ST = "mobile_info_2015_09_01.csv"
@@ -12,8 +14,12 @@ MOBILE_INFO_SEPT_1ST = "mobile_info_2015_09_01.csv"
 LOG_DATA_COL = ["deviceid", "log_timestamp", "data_all"]
 MOBILE_INFO_COL = ["device_id", "timestamp", "base_station_id"]
 
+#in case one wasn't selected. returns 
+try: 
+	BASE_STATION_PRACTICE = sys.argv[1]
+except:
+	BASE_STATION_PRACTICE = 452
 
-BASE_STATION_PRACTICE = 8759.0
 Merged_Group_Col = ["device_id", "data_all", "timestamp", "base_station_id" ]
 
 def parse_date(date_str):
@@ -52,7 +58,7 @@ def filterCellTower(pddp, cell_tower):
 			cell tower string
 		outputs new dataframe
 	"""
-	newlog = pddp[pddp['base_station_id'].isin([8759.0])]
+	newlog = pddp[pddp['base_station_id'].isin([BASE_STATION_PRACTICE])]
 	return newlog
 
 
@@ -61,16 +67,16 @@ def print_full(x):
     print(x)
     pd.reset_option('display.max_rows')
 
-def project_data(data: 'DataFrame', dims: int) -> '[matrix, matrix]':
-    """
-    :param data: The data as a DataFrame object, assuming from pandas.
-    :param dims: The preferred number of dimensions to project the data onto - the minimum and ideal k, to project onto R^k.
-    :return: An array [result, precision], result being the output data,
-        precision being a single element array with value [0,1], 1 meaning all the variance was accounted for (good).
-    """
-    pca = PCA(n_components=dims)
-    pca.fit(data)
-    return [pca.components_, pca.explained_variance_ratio_]
+# def project_data(data: 'DataFrame', dims: int) -> '[matrix, matrix]':
+#     """
+#     :param data: The data as a DataFrame object, assuming from pandas.
+#     :param dims: The preferred number of dimensions to project the data onto - the minimum and ideal k, to project onto R^k.
+#     :return: An array [result, precision], result being the output data,
+#         precision being a single element array with value [0,1], 1 meaning all the variance was accounted for (good).
+#     """
+#     pca = PCA(n_components=dims)
+#     pca.fit(data)
+#     return [pca.components_, pca.explained_variance_ratio_]
 
 def main():
 	#read_csv returns a pdDataframe.
@@ -101,19 +107,18 @@ plt.plot(data[0],data[1],'-')
 plt.show()
 #print_full(main())
 
-main()
+
 #print_full(main())
 
-
+main()
 
 
 plt.grid(True) 
 plt.axes = data['data_all'].plot(kind='line')
 plt.show()
 
-if __name__ == '__main__':
-   main()  # Run the main method.
-
+	
+os.system("prediction.py")
 
 
 
