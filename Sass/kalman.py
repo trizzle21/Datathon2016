@@ -18,15 +18,55 @@
 #	x̂_k = x̂_k + g_k (z_k − h(x^k)) 
 #	p_k= (1− g_k * c_k ) * p_k
 
+#linear version
+# xhat = a * xhat;
+# p    = a * p * a;
+
+# // Update
+# g    = p  / (p  + r);
+# xhat = xhat + g * (z - xhat);
+# p    = (1 - g) * p;
+
+
+
+
 import lagrange as lg
 
 
-def kalmanFilter(observed_data, estimate_state):
-	r = .045
-	xhat = []
-	for i in estimate_state:
-		xhat.append(i+(r*i))
-	s
+def kalman_filter(observed_data):
+	#instance vars
+	
+	data_len = len(observed_data);
+	estimate_data_range = [x for x in range(0,data_len)]
+	
+	#model building time
+	estimate_state = []
+	for i in observed_data:
+
+
+
+	#prediction
+	#TODO
+
+
+
+	#update
+	#TODO
+
+
+
+
+	#Graphical printout
+	#needs (observed data, y), (estimate_state, estimate_data_range), (prediction_line, estimate_data_range) graphed over each other.
+	#TODO
+
+
+
+
+
+
+
+
 
 	
 
