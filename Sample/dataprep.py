@@ -8,8 +8,8 @@ import os
 import lagrange as lg
 #from sklearn.decomposition import PCA
 
-LOG_DATA = "log_data_2015_09_01.csv"
-MOBILE_INFO_SEPT_1ST = "mobile_info_2015_09_01.csv"
+LOG_DATA = "datathon/data/log_data_2015_09_01.csv"
+MOBILE_INFO_SEPT_1ST = "datathon/data/mobile_info_2015_09_01.csv"
 
 
 LOG_DATA_COL = ["deviceid", "log_timestamp", "data_all"]
