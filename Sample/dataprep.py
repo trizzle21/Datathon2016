@@ -5,11 +5,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os
+import glob
 import lagrange as lg
+import settings
+
 #from sklearn.decomposition import PCA
 
-LOG_DATA = "datathon/data/log_data_2015_09_01.csv"
-MOBILE_INFO_SEPT_1ST = "datathon/data/mobile_info_2015_09_01.csv"
+dir_name = settings.BASE_DIR
+
+
+
+LOG_DATA = os.path.join(dir_name, 'Data', "log_data_september_1st" + ".csv")
+MOBILE_INFO_SEPT_1ST = os.path.join(dir_name, 'Data', "mobile_info_all_sept_1" + ".csv")
 
 
 LOG_DATA_COL = ["deviceid", "log_timestamp", "data_all"]
@@ -116,8 +123,14 @@ data = main()
 
 
 def secondary():
+	"""
+	The Point of this is to 
+
+	"""
+
 	v = [ 5,  6,  7,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 23]
 	xhat = [i for i in range(7,24)]
+	#This data 
 	prelg = [8901482,  898952, 1107098,  554078,  365004,  427394,  406668,
         525004,  477256,  571558, 1107482,  909442,  784612,  696754,
        3112642, 3258892] 
