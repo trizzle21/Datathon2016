@@ -106,7 +106,6 @@ def main():
 	MergedGroup = MergedGroup.set_index('log_timestamp')
 	return [np.unique(MergedGroup.index.map(lambda t: t.hour)), MergedGroup['data_all'].groupby(MergedGroup.index.map(lambda t: t.hour)).sum().values]
 
-print main()
 
 
 def lagrange(xdata, ydata):
@@ -121,7 +120,7 @@ def lagrange(xdata, ydata):
 
 data = main()
 
-
+print data
 def secondary():
 	"""
 	The Point of this is to 
@@ -146,17 +145,10 @@ def secondary():
 data2 = secondary()
 
 
-print data2[0][7]
-print data2[1][7]
 
 
 
 
-
-"""
-(0,79167290917104), (1,40370927483676), (2,1374468309776), (3,4268452794052), (4,1388309176324), (5,8901482), (6,898952), (7,1107098), (8,0), (9,554078), (10, 365004), (11,427394),(12,406668), (13, 525004),  (14,477256), (15, 571558), (16, 1107482), (17,909442), (18,784612), (19, 0) 
-
-"""
 
 
 

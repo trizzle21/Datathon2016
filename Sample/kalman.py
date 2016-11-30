@@ -28,8 +28,6 @@
 # p    = (1 - g) * p;
 
 
-
-
 import lagrange as lg
 
 
