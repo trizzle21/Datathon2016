@@ -35,13 +35,16 @@ PCR and Kalman Filter are under development (PCR may be scraped for better metho
 
 ## Developer Documentation
 
+Requires specific dataset. Can be substituted with similar normalized data source.
 
 ### Maps
 
 As dynamically generated as possible with matplotlib, maps.py generated a map with cell tower locations (as many as we can find), clicking on each cell point should launch dataprep
 
+Taken back seat to other maps.
 
 ## Data conversion and merging
+
 We take in two csv files, one being mobile_info and log_data and find where the corresponding device id use data on the cell tower. We sum that data over a 24hr period and place it into an array
 
 From there, the data is graphed into matplot lib and displayed correspondingly.
@@ -52,3 +55,4 @@ Launched from Data_prep, Predicition uses a Kalman Filter to create a predicted 
 
 
 ## License
+MIT License
