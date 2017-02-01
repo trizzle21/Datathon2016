@@ -1,5 +1,5 @@
 # Datathon2016
-Predictive Data Usage using Kalman Filter and PCR on CellTowers
+Predictive Data Usage using Linear Prediction, Kalman Filter and PCR on CellTowers
 
 ## Table of Contents
 
@@ -21,6 +21,13 @@ PyKalman
 
 ##Introduction
 
+This is a basic to more advanced application of data usage on cell towers over time. Beginning with linear prediction, it uses the least squares method to predict how much data is being used in the proceeding days.
+
+Using similar methodologies, we can use a Kalman filter to predict daily data usage.
+
+Current time scale is daily, because the data is not granual enough and the recordings are not recorded on an even enough basis.
+
+PCR and Kalman Filter are under development (PCR may be scraped for better methodologies)
 
 ##Tutorial
 
