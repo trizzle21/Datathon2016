@@ -21,7 +21,9 @@ PyKalman
 
 ##Introduction
 
-This is a basic to more advanced application of data usage on cell towers over time. Beginning with linear prediction, it uses the least squares method to predict how much data is being used in the proceeding days.
+This is a basic to more advanced application of data usage on cell towers over time. 
+
+Beginning with linear prediction, it uses the least squares method to predict how much data is being used in the proceeding days.
 
 Using similar methodologies, we can use a Kalman filter to predict daily data usage.
 
@@ -31,7 +33,7 @@ PCR and Kalman Filter are under development (PCR may be scraped for better metho
 
 ##Tutorial
 
-
+The data that the databases is not publicly available, but the algorithm modules are available according to the license file.
 
 ## Developer Documentation
 
@@ -55,4 +57,4 @@ Launched from Data_prep, Predicition uses a Kalman Filter to create a predicted 
 
 
 ## License
-MIT License
+2016 MIT License
