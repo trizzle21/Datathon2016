@@ -19,12 +19,8 @@ The prediction will either be positive or negative, and start from the last valu
 
 
 
-
-
-
 def dailyDataUsage(xValues, yValues):
-    #
-    # uses the trapazoidal rule to calculate data usage over the day
+    """ uses the trapazoidal rule to calculate data usage over the day"""
     if len(xValues) != len(yValues):
         counter, usage = 0, 0
     while counter < len(dataArray):

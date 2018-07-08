@@ -1,22 +1,24 @@
-#Prepares data for classification
-import datetime
+""" Prepares data for classification
+
+"""
+import sys
+import os
+from datetime import datetime
+#import glob
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
-import os
-import glob
-import lagrange as lg
-import settings
+#import lagrange as lg
+from .. import settings
 
 #from sklearn.decomposition import PCA
 
-dir_name = settings.BASE_DIR
+DIR_NAME = settings.BASE_DIR
 
 
 
-LOG_DATA = os.path.join(dir_name, 'Data', "log_data_september_1st" + ".csv")
-MOBILE_INFO_SEPT_1ST = os.path.join(dir_name, 'Data', "mobile_info_all_sept_1" + ".csv")
+LOG_DATA = os.path.join(DIR_NAME, 'Data', "log_data_september_1st" + ".csv")
+MOBILE_INFO_SEPT_1ST = os.path.join(DIR_NAME, 'Data', "mobile_info_all_sept_1" + ".csv")
 
 
 LOG_DATA_COL = ["deviceid", "log_timestamp", "data_all"]
@@ -28,10 +30,10 @@ try:
 except:
     BASE_STATION_PRACTICE = 452
 
-Merged_Group_Col = ["device_id", "data_all", "timestamp", "base_station_id" ]
+MERGED_GROUP_COL = ["device_id", "data_all", "timestamp", "base_station_id"]
 
 def parse_date(date_str):
-    """takes in a date_str and returns a
+    """takes in a date_str and returns a string
 
 	arguments: date_str
 	outputs: time formated in date_format
@@ -40,7 +42,7 @@ def parse_date(date_str):
 	parse_date("9-1-16 3:10:56", "%b/%d/%Y %H")
 	9/1/16 3:10"
 	"""
-    new_time = datetime.datetime.strptime(date_str, "%m/%d/%Y %H:%M")
+    new_time = datetime.strptime(date_str, "%m/%d/%Y %H:%M")
     return new_time.strftime("%y-%m-%d %H:%M")
 
 
@@ -49,6 +51,7 @@ def parse_date(date_str):
 
 
 def create_date(date_str):
+    """ Re"""
     time_stamp_array = parse_date(date_str)
     newstr = ""
     newstr = str(time_stamp_array[1]) +'-' + str(time_stamp_array[2]) + '-' \
@@ -58,7 +61,7 @@ def create_date(date_str):
 
 
 def date_filter(date_str):
-    """ TODO"""
+    """ TODO """
     return date_str
 
 def filter_cell_tower(pddp, cell_tower):
@@ -111,8 +114,9 @@ def main():
 
 
 def lagrange(xdata, ydata):
+    """ Generates a list of lagrange (x,y) endpoints"""
     l = []
-    for i in range(0,24):
+    for i in range(0, 24):
         l.append(lg.lagrange_generator(xdata, ydata, i))
 
     return l
