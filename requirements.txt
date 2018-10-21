@@ -7,3 +7,4 @@ ipython-notebook
 Pandas 
 Sympy 
 python-nose
+

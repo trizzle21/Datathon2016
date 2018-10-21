@@ -1,0 +1,72 @@
+headers
+
+app_usage_events
+-- device id (id)
+-- application_version_id (id)
+-- type FK 
+-- start date 
+-- run time (secs)
+-- year    
+-- month   
+-- day 
+-- package_name
+
+
+mobile_infor
+-- timestamp
+-- device_id
+-- base_station_id (int)
+-- base_station_long(big neg int)
+-- base_station_lat (dd-dd-dd)
+-- cid
+-- lac
+-- network_id
+-- system_id
+-- phone_type
+-- network_type 
+-- year
+-- month
+-- day
+{
+    timestamp: Dt,
+    base_station_lat: latitude-long,
+
+
+
+
+
+}
+
+
+mobile signal info
+-- timestamp,
+-- device_id,
+-- cdma_dbm,
+-- cdma_asu_level,
+-- cdma_ecio,
+-- evdo_dbm,
+-- evdo_asu_level,
+-- evdo_ecio,
+-- gsm_dbm,
+-- gsm_asu_level,
+-- lte_dbm,
+-- lte_asu_level,
+-- lte_rsrp,
+-- lte_rsrq,
+-- wcdma_dbm,
+-- wcdma_asu_level,
+-- longitude,
+-- latitude,
+-- year,
+-- month,
+-- day
+
+{
+    timestamp: dt,
+    device_id: id,
+    long, lat: 
+
+
+}
+
+
