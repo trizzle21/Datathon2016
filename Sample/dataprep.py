@@ -17,7 +17,6 @@ from .. import settings
 DIR_NAME = settings.BASE_DIR
 
 
-
 LOG_DATA = os.path.join(DIR_NAME, 'Data', "log_data_september_1st" + ".csv")
 MOBILE_INFO_SEPT_1ST = os.path.join(DIR_NAME, 'Data', "mobile_info_all_sept_1" + ".csv")
 
